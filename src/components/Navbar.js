@@ -1,40 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ logout, token, user }) => {
-    console.log()
-    return (
+const Navbar = ({ logout, user }) => {
 
-        <header id="navbar">
-            <nav id="navBack">
-                {
-                    token ? (
-                        <ul id="navList">
-                            <li id="welcome">
-                            Welcome {`${user.username}!`}
-                            </li>
-                            <li>
-                            <Link id="home" to='/'>Home</Link>
-                            </li>
-                            <li>
-                            <Link id="profile" to='/profile'>Profile</Link>
-                            </li>
-                            <li>
-                            <Link id="logout" to='/' onClick={() => logout()}>Logout</Link>
-                            </li>
-                        </ul>
-                    ) : (
-                        <>
-                            <Link id="home" to='/'>Home</Link>
-                            <Link id="posts" to='/posts'>Posts</Link>
-                            <Link id="register" to='/register'>Register</Link>
-                            <Link id="login" to='/login'>Login</Link>
-                        </>
-                    )
-                }
-            </nav>
-        </header>
-    )
+    let token = window.localStorage.getItem('token')
+
+    if (!token) {
+        return (
+            <header>
+                <nav id='navbar'>
+                    <div id='navtitle'>Fitness Trackr</div>
+                    <ul id='navlist'>
+                        <button><Link to='/'>Home</Link></button>
+                        <button><Link to='/routines'>Routines</Link></button>
+                        <button><Link to='/activities'>Activities</Link></button>
+                        <button><Link to='/register'>Register</Link></button>
+                        <button><Link to='/login'>Login</Link></button>
+                    </ul>
+                </nav>
+            </header>
+        )
+    } else {
+        return (
+            <header>
+                <nav id='navbar'>
+                    <div id='navtitle'>Fitness Trackr</div>
+                    <ul id='navlist'>
+                        <button><Link to='/'>Home</Link></button>
+                        <button><Link to='/routines'>Routines</Link></button>
+                        <button><Link to='/myRoutines'>My Routines</Link></button>
+                        <button><Link to='/activities'>Activities</Link></button>
+                        <button><Link to='/' onClick={() => logout()}>Logout</Link></button>
+                    </ul>
+                </nav>
+            </header>
+        )
+    }
 }
 
 export default Navbar;

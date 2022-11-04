@@ -1,41 +1,45 @@
 import React, { useState } from 'react';
-import { loginUser } from '../api';
+import { registerUser } from '../api';
 
-const Login = ({ setToken, navigate, setLoginErrorMessage, loginErrorMessage }) => {
+
+const Register = ({ setToken, navigate, setRegErrorMessage, regErrorMessage }) => {
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
   const handleSubmit = async () => {
 
-    const results = await loginUser(username, password);
+    const results = await registerUser(username, password);
 
     if (results.token) {
       setToken(results.token);
       window.localStorage.setItem('token', results.token);
-      window.localStorage.setItem('username', username)
+      window.localStorage.setItem('username', username);
       console.log(results.message)
+      setRegErrorMessage(results.message)
       navigate('/');
-    } else {
-      console.log("Login Error")
-      setLoginErrorMessage(results.message)
-      console.log(loginErrorMessage)
     }
+    else {
+      console.log("Registration Error")
+      console.log(results.message)
+      setRegErrorMessage(results.message)    }
   }
   
   return (
     <form onSubmit={(event) => {
       event.preventDefault();
-      handleSubmit();
+      handleSubmit(); 
     }}>
-
-      <h1>Login to Fitness Tracker</h1>
-      <div>{`${loginErrorMessage}`}</div>
+      <h1>Register for free!</h1>
+      <div>{`${regErrorMessage}`}</div>
       <input 
+        // id='createTitle'
         type='text'
         placeholder='Enter Username'
         onChange={(event) => setUsername(event.target.value)}
       />
-      <input 
+      <input
+        // id='createTitle'
         type='password'
         placeholder='Enter Password'
         onChange={(event) => setPassword(event.target.value)}
@@ -45,4 +49,4 @@ const Login = ({ setToken, navigate, setLoginErrorMessage, loginErrorMessage }) 
   )
 }
 
-export default Login;
+export default Register;
